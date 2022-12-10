@@ -39,33 +39,11 @@ public class Root : MonoBehaviour
         var stationM = _graph.CreatePoint("M");
         var stationN = _graph.CreatePoint("N");
         var stationO = _graph.CreatePoint("O");
-        
-        //red line
-        _graph.AddEdge(stationA, stationB, Color.Red);
-        _graph.AddEdge(stationB, stationC, Color.Red);
-        _graph.AddEdge(stationC, stationD, Color.Red);
-        _graph.AddEdge(stationD, stationE, Color.Red);
-        _graph.AddEdge(stationE, stationF, Color.Red);
-        
-        //black line
-        _graph.AddEdge(stationB, stationH, Color.Black);
-        _graph.AddEdge(stationH, stationJ, Color.Black);
-        _graph.AddEdge(stationJ, stationF, Color.Black);
-        _graph.AddEdge(stationF, stationG, Color.Black);
-        
-        //blue line
-        _graph.AddEdge(stationN, stationL, Color.Blue);
-        _graph.AddEdge(stationL, stationD, Color.Blue);
-        _graph.AddEdge(stationD, stationJ, Color.Blue);
-        _graph.AddEdge(stationJ, stationO, Color.Blue);
-        
-        //green line
-        _graph.AddEdge(stationC, stationJ, Color.Green);
-        _graph.AddEdge(stationJ, stationE, Color.Green);
-        _graph.AddEdge(stationE, stationM, Color.Green);
-        _graph.AddEdge(stationM, stationL, Color.Green);
-        _graph.AddEdge(stationL, stationK, Color.Green);
-        _graph.AddEdge(stationK, stationC, Color.Green);
+
+        _graph.AddLine(Color.Red, stationA, stationB, stationC, stationD, stationE, stationF);
+        _graph.AddLine(Color.Black, stationB, stationH, stationJ, stationF, stationG);
+        _graph.AddLine(Color.Blue, stationN, stationL, stationD, stationJ, stationO);
+        _graph.AddLine(Color.Green, stationC, stationJ, stationE, stationM, stationL, stationK, stationC);
     }
 
     public void FindPath()

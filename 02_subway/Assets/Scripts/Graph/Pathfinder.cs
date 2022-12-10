@@ -4,31 +4,32 @@ namespace Graph
 {
     public static class Pathfinder
     {
+        private class AStarPoint
+        {
+            public double F;
+            public double G;
+            public Point CameFrom;
+        }
+        
         public static (List<Point> points, int colorChanges) FindPath(IGraph graph, Point source, Point destination)
         {
-            var cameFrom = new Dictionary<Point, Point>();
-            var fScores = new Dictionary<Point, double>();
-            var gScores = new Dictionary<Point, double>();
+            var openNodes = new List<Point> { source };
+            var aStarPoints = new Dictionary<Point, AStarPoint>
+            {
+                { source, new AStarPoint() }
+            };
 
-            var openNodes = new List<Point>();
-
-            cameFrom[source] = source;
-            fScores.Add(source, 0);
-            gScores.Add(source, 0);
-
-            openNodes.Add(source);
-            
             while (openNodes.Count > 0)
             {
-                var current = FindPointWithMinFScore(openNodes, fScores);
+                var current = FindPointWithMinFScore(openNodes, aStarPoints);
                 openNodes.Remove(current);
-                if (current.Id == destination.Id)
+                if (current == destination)
                 {
                     var path = new List<Point>();
                     while (current != source)
                     {
                         path.Add(current);
-                        current = cameFrom[current];
+                        current = aStarPoints[current].CameFrom;
                     }
 
                     path.Add(source);
@@ -40,13 +41,17 @@ namespace Graph
 
                 foreach (var next in graph.GetNeighbors(current))
                 {
-                    var newCost = gScores[current] + graph.GetEdgeWeight(current, next);
-                    if (!gScores.ContainsKey(next) || newCost < gScores[next])
+                    var newCost = aStarPoints[current].G + graph.GetEdgeWeight(current, next);
+                    if (!aStarPoints.ContainsKey(next) || newCost < aStarPoints[next].G)
                     {
-                        gScores[next] = newCost;
-                        fScores[next] = newCost;
+                        var aStarPoint = new AStarPoint
+                        {
+                            F = newCost,
+                            G = newCost,
+                            CameFrom = current
+                        };
+                        aStarPoints[next] = aStarPoint;
                         openNodes.Add(next);
-                        cameFrom[next] = current;
                     }
                 }
             }
@@ -54,15 +59,15 @@ namespace Graph
             return default;
         }
         
-        private static Point FindPointWithMinFScore(IReadOnlyList<Point> points, Dictionary<Point, double> fScores)
+        private static Point FindPointWithMinFScore(IReadOnlyList<Point> points, Dictionary<Point, AStarPoint> aStarPoints)
         {
             var result = points[0];
-            var minScore = fScores[result];
+            var minScore = aStarPoints[result].F;
 
             for (var i = 1; i < points.Count; i++)
             {
                 var point = points[i];
-                var score = fScores[point];
+                var score = aStarPoints[point].F;
                 if (minScore > score)
                 {
                     result = point;

@@ -4,15 +4,12 @@ namespace Graph
 {
     public class Point
     {
-        public int Id { get; private set; }
-        
         public string Label { get; private set; }
 
         public List<Edge> Edges { get; private set; }
 
-        public Point(int id, string label)
+        public Point(string label)
         {
-            Id = id;
             Label = label;
             Edges = new List<Edge>();
         }
@@ -32,7 +29,7 @@ namespace Graph
 
         public override string ToString()
         {
-            return $"Point, Id = {Id.ToString()}, Label = {Label}";
+            return $"Point, Label = {Label}";
         }
     }
 }

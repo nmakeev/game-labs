@@ -5,22 +5,19 @@ namespace Graph
 {
     public class Graph : IGraph
     {
-        private Dictionary<int, Point> _points;
+        private readonly List<Point> _points;
         private readonly double _defaultWeight;
-        
-        private int _nextId;
 
         public Graph(double defaultWeight)
         {
-            _points = new Dictionary<int, Point>();
+            _points = new List<Point>();
             _defaultWeight = defaultWeight;
         }
 
         public Point CreatePoint(string label)
         {
-            var point = new Point(_nextId, label);
-            _points[point.Id] = point;
-            _nextId++;
+            var point = new Point(label);
+            _points.Add(point);
             return point;
         }
 
@@ -39,17 +36,28 @@ namespace Graph
 
         public void AddEdge(Point source, Point destination, Color edgeColor)
         {
-            _points[source.Id].Edges.Add(new Edge(destination, edgeColor));
-            _points[destination.Id].Edges.Add(new Edge(source, edgeColor));
+            source.Edges.Add(new Edge(destination, edgeColor));
+            destination.Edges.Add(new Edge(source, edgeColor));
+        }
+
+        public void AddLine(Color lineColor, params Point[] points)
+        {
+            for (var i = 1; i < points.Length; i++)
+            {
+                var previousPoint = points[i - 1];
+                var point = points[i];
+                
+                AddEdge(point, previousPoint, lineColor);
+            }
         }
 
         public Point FindPointByLabel(string label)
         {
-            foreach (var value in _points.Values)
+            foreach (var point in _points)
             {
-                if (value.Label == label)
+                if (point.Label == label)
                 {
-                    return value;
+                    return point;
                 }
             }
 
