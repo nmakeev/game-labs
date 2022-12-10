@@ -70,14 +70,14 @@ public class Root : MonoBehaviour
 
     public void FindPath()
     {
-        var sourceStation = _graph.FindPointByLabel(_sourceStationField.text);
+        var sourceStation = _graph.FindPointByLabel(_sourceStationField.text.ToUpper());
         if (sourceStation == null)
         {
             _outputField.text = $"SourceStation not found, label = {_sourceStationField.text}";
             return;
         }
         
-        var destinationStation = _graph.FindPointByLabel(_destinationStationField.text);
+        var destinationStation = _graph.FindPointByLabel(_destinationStationField.text.ToUpper());
         if (destinationStation == null)
         {
             _outputField.text = $"DestinationStation not found, label = {_destinationStationField}";
@@ -105,7 +105,7 @@ public class Root : MonoBehaviour
         {
             if (!first)
             {
-                _pathStringBuilder.Append(" -> ");
+                _pathStringBuilder.Append(" - ");
             }
 
             first = false;
@@ -113,6 +113,6 @@ public class Root : MonoBehaviour
             _pathStringBuilder.Append(point.Label);
         }
 
-        _pathStringBuilder.Append($", lineChanges = {lineChanges.ToString()}");
+        _pathStringBuilder.Append($"\nlineChanges = {lineChanges.ToString()}");
     }
 }
