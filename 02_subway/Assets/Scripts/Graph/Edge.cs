@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Model
+namespace Graph
 {
     public class Edge
     {

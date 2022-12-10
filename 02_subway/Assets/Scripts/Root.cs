@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Model;
+using Graph;
 using TMPro;
 using UnityEngine;
 using Color = System.Drawing.Color;
@@ -16,14 +16,14 @@ public class Root : MonoBehaviour
     [SerializeField]
     private TMP_Text _outputField;
     
-    private Graph _graph;
+    private Graph.Graph _graph;
     private StringBuilder _pathStringBuilder;
 
     private void Start()
     {
         _pathStringBuilder = new StringBuilder();
         
-        _graph = new Graph(1);
+        _graph = new Graph.Graph(1);
 
         var stationA = _graph.CreatePoint("A");
         var stationB = _graph.CreatePoint("B");

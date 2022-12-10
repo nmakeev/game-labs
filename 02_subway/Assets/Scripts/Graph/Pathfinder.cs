@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Model
+namespace Graph
 {
     public static class Pathfinder
     {

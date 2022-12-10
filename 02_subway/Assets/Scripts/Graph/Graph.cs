@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Model
+namespace Graph
 {
     public class Graph : IGraph
     {
